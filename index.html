@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>纪念日提醒</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Anniversary Reminder</p>
+          <h1>纪念日提醒</h1>
+          <p class="subhead">记录公历或农历事项，自动计算下一次日期，并可导出到系统日历长期提醒。</p>
+        </div>
+        <div class="today-panel" aria-live="polite">
+          <span>今天</span>
+          <strong id="todayText">加载中</strong>
+          <small id="todayLunarText"></small>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <form class="editor" id="eventForm">
+          <div class="form-header">
+            <h2>新增事项</h2>
+            <button class="icon-button" type="button" id="notifyButton" title="开启浏览器提醒" aria-label="开启浏览器提醒">
+              <span aria-hidden="true">🔔</span>
+            </button>
+          </div>
+
+          <label>
+            事项名称
+            <input id="titleInput" type="text" maxlength="30" placeholder="例如：妈妈生日" required />
+          </label>
+
+          <fieldset>
+            <legend>日期类型</legend>
+            <div class="segmented">
+              <label>
+                <input type="radio" name="dateType" value="lunar" checked />
+                <span>农历</span>
+              </label>
+              <label>
+                <input type="radio" name="dateType" value="solar" />
+                <span>公历</span>
+              </label>
+            </div>
+          </fieldset>
+
+          <div class="grid-two" id="solarFields" hidden>
+            <label>
+              公历日期
+              <input id="solarDateInput" type="date" />
+            </label>
+            <label>
+              提前提醒
+              <select id="solarAdvanceInput">
+                <option value="0">当天</option>
+                <option value="1">提前 1 天</option>
+                <option value="3">提前 3 天</option>
+                <option value="7">提前 7 天</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="lunar-fields" id="lunarFields">
+            <div class="grid-three">
+              <label>
+                农历月
+                <select id="lunarMonthInput"></select>
+              </label>
+              <label>
+                农历日
+                <select id="lunarDayInput"></select>
+              </label>
+              <label>
+                提前提醒
+                <select id="lunarAdvanceInput">
+                  <option value="0">当天</option>
+                  <option value="1">提前 1 天</option>
+                  <option value="3">提前 3 天</option>
+                  <option value="7">提前 7 天</option>
+                </select>
+              </label>
+            </div>
+            <label class="checkbox-row">
+              <input id="lunarLeapInput" type="checkbox" />
+              <span>闰月生日/纪念日</span>
+            </label>
+          </div>
+
+          <label>
+            备注
+            <textarea id="noteInput" maxlength="80" placeholder="可选，例如：记得买花"></textarea>
+          </label>
+
+          <button class="primary-button" type="submit">保存事项</button>
+        </form>
+
+        <section class="list-panel">
+          <div class="list-header">
+            <div>
+              <h2>事项列表</h2>
+              <p id="countText">暂无事项</p>
+            </div>
+            <button class="ghost-button" id="exportButton" type="button">导出日历</button>
+          </div>
+          <div class="empty-state" id="emptyState">
+            <strong>还没有纪念日</strong>
+            <span>先添加一个农历生日，页面会显示今年或下一年的公历日期。</span>
+          </div>
+          <div class="event-list" id="eventList"></div>
+        </section>
+      </section>
+    </main>
+
+    <template id="eventTemplate">
+      <article class="event-card">
+        <div class="event-date">
+          <span class="event-month"></span>
+          <strong class="event-day"></strong>
+        </div>
+        <div class="event-main">
+          <div class="event-title-row">
+            <h3></h3>
+            <span class="type-badge"></span>
+          </div>
+          <p class="event-meta"></p>
+          <p class="event-note"></p>
+        </div>
+        <button class="delete-button" type="button" title="删除" aria-label="删除">×</button>
+      </article>
+    </template>
+
+    <script src="./script.js"></script>
+  </body>
+</html>
